@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  <!-- tab name  -->
+  <title>Thailand Bamboo Belt Union</title>
+  <!-- need this meta for user scale interaction -->
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
+  <!-- add link to mapbox js data -->
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css'>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+
+  <!-- Load c3 -->
+  <link href="./c3.css" rel="stylesheet">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="./c3.min.js"></script>
+</head>
+
+
+<body>
+<!-- add geocoder -->
+<script type="text/javascript" src="//www.earthengine.app/javascript/main.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+<!-- add turf -->
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+<!-- add drawing tool -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css" type="text/css">
+<!-- add map -->
+<div id="map"></div>
+<!-- add print option -->
+<link href='https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.css' rel='stylesheet' />
+    <script src="https://watergis.github.io/mapbox-gl-export/mapbox-gl-export.js"></script>
+    <script src="src/index.ts"></script>
+
+
+  <!-- add LOGO -->
+  <a href="https://www.chora.tu-berlin.de/">
+    <img src="https://static.wixstatic.com/media/157274_578f2a12bf0b4b29affc59ae4d4cf2bb~mv2.png" 
+    alt="CHORA LOGO"
+    style="height: 45px;float:right;margin:10px">
+  </a>
+<!-- add bg option -->
+    <div id="Background">
+      Background
+      <br>
+      <input id="cl6g21ffh000m14rtj98ffsig" type="radio" name="rtoggle" value="Light" checked="checked">
+      <label for="cl6g21ffh000m14rtj98ffsig">Light</label>
+       <br>
+      <input id="cl8x1o8c7000q14q4f5a4x85z" type="radio" name="rtoggle" value="Satellite" >
+      <label for="cl8x1o8c7000q14q4f5a4x85z">Satellite</label>
+     </div>
+<!-- toggle slidebar -->
+<div id="left" class="sidebar flex-center left collapsed">
+  <div class="sidebar-content rounded-rect flex-center">
+      <!-- several pages in container -->
+      <div id="Page1">
+      <p><strong>Data Analytic</strong><br>The suitable area for growing bamboo is the result of combining several ecological and human settlement (detail through this 
+      <a href="https://wawasita.users.earthengine.app/view/bambooprtentialprototype2">link</a>
+      ) then using the <a href="https://desktop.arcgis.com/en/arcmap/10.3/tools/spatial-analyst-toolbox/how-focal-statistics-works.htm">focal analysis</a> 
+      to find the potential location to get the highest bamboo resource from 10 km radius for primary bamboo processing factory.<br>
+      While the transportation layer is a crucial factor for the secondary bamboo processing factory location to lessen the carbon emission from logistic factors.<br><br><br><br></p>    
+      <a href="#" onclick="return toggleShow('Page2','Page1');">
+        <button>&#8250</button>
+      </a>
+      </div>
+      <class id="Page2" style="display:none">
+      <!-- image with modal -->
+        <p><img id="myImg" src="https://static.wixstatic.com/media/157274_12c4bc51c0d34833883705f35954ec7d~mv2.png" alt="VC stages"style="height:200px;margin:0px"></p>
+        <button onclick="toggleShow()">&#8249</button>
+            <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" src="https://static.wixstatic.com/media/157274_efae6e10a7ad498ba3662c8c984e6a41~mv2.png">
+            <div id="caption"></div>
+        </div>
+        <a href="#" onclick="return toggleShow('Page3','Page2');">
+          <button>&#8250</button>
+        </a>
+      </class>
+      <div id="Page3" style="display:none">
+        <p><strong>Bamboo effects on carbon emission in building sector</strong><br>
+          The global construction sector consumes almost half of the total material production footprint in the world, 
+          which implies the highest single-category material footprint across the global economy. 
+          In the search for nature-based alternatives, bamboo grass can become a mainstream building material in the global tropical belt 
+          due to significantly shorter rotation times compared to softwood or hardwood species and the engineered bamboo plank could be effortlessly integrate to the 
+          typical building system<br></p>
+        <button onclick="toggleShow()">&#8249</button>
+      </div>
+      <div class="sidebar-toggle rounded-rect left" onclick="toggleSidebar('left')">
+          &rarr;
+      </div>
+  </div>
+</div>
+<!-- layer control  -->
+<div id="menu"></div>
+<!-- distance calculation  -->
+<div class="calculation-box">
+      <div id="calculated-distance"></div> 
+  </div>
+<!-- Lat-Long  -->
+<pre id="info"></pre>
+<!-- Legend Box  -->
+<div class="map-overlay top">
+  <div class="map-overlay-inner">
+    <fieldset>  
+    <label>
+      Thailand Bamboo Belt Union
+       </br></br>
+      <!-- to make new line </br></br>  -->
+     </label>
+    <fieldset>
+    <fieldset>
+         <img src="https://static.wixstatic.com/media/157274_95202ef71a084a14a6ff9d9676c73c3c~mv2.png" 
+          alt="Legend_01"
+          style="width: 220px;float:left;margin:2px">
+                </br></br>
+        <img src="https://static.wixstatic.com/media/157274_d40064358c104070b04dee47115f2739~mv2.png" 
+          alt="Legend_02"
+          style="width: 220px;float:left;margin:2px">
+                </br></br>
+      <img src="https://static.wixstatic.com/media/157274_fcc2c5000222495d821b23b449476b9c~mv2.png" 
+          alt="Legend_02"
+          style="width: 220px;float:left;margin:2px">
+      </fieldset>
+    <fieldset>
+  </div>
+  <div class="donut-popup" id="donut-popup-container"></div>
+<button class ="button" id="button1">Potential Inspector Tool</button>
+</div>
+<!-- partial -->
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script><script  src="./script.js"></script>
+</body>
+
+</html>
