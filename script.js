@@ -5,13 +5,13 @@ const map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/wawasita/cl6g21ffh000m14rtj98ffsig', // style URL
   center: [100.45, 14.0], // starting position [lng, lat]
-  zoom: 8.5, // starting zoom (0 {world scale} to 22)
+  zoom: 8, // starting zoom (0 {world scale} to 22)
   //control min-max zoom level on website
   maxZoom: 15,
-  minZoom: 0,
+  minZoom: 4,
   pitch: 75, // pitch in degrees
   // bearing: -45, // bearing in degrees
-  projection: 'globe', // display the map as a 3D globe only two possibility globe or mercator
+  projection: 'mercator', // display the map as a 3D globe only two possibility globe or mercator
 });
 
 // Set map atmosphere style. if not familiar with the result, play in the studio first then copy the attibute to JS
@@ -161,7 +161,7 @@ function addLayer() {
     type: 'fill-extrusion',
     source: 'Score',
     'source-layer': 'GEE_Score-6pxqcf',
-    mixzoom: 8,
+    //mixzoom: 8.5,
     layout: {},
     //to filter the range
     filter: ['>=', 'PriFactory', 368],
@@ -205,8 +205,8 @@ function addLayer() {
     type: 'fill-extrusion',
     source: 'Factory',
     'source-layer': 'Factory_Area',
-    minzoom: 9.5,
-    maxzoom: 9,
+    //minzoom: 9.5,
+    maxzoom: 8.5,
     layout: {},
     //to filter the range
     filter: ['>=', 'label', 368],
