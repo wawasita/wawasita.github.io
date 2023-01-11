@@ -141,11 +141,11 @@ body {
   background: #fff;
   position: absolute;
   z-index: 7;
-  top: 275px;
+  bottom: 200px;
   right: 10px;
-  border-radius: 3px;
-  width: 104px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  width: 105px;
+  border: 1px solid rgba(134, 134, 134, 0.4);
   padding: 8px;
   font-size: 13px;
   font-family: 'Franklin Gothic Medium', sans-serif;
