@@ -9,12 +9,17 @@
 
   <!-- add link to mapbox js data -->
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css'><link rel="stylesheet" href="./style.css">
+  
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
 
   <!-- Load c3 -->
   <link href="./c3.css" rel="stylesheet">
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="./c3.min.js"></script>
+  <!-- Load deck -->
+  <script src="https://unpkg.com/deck.gl@^8.8.0/dist.min.js"></script>
+
+  
 </head>
 
 
@@ -50,24 +55,25 @@
   <div class="sidebar-content rounded-rect flex-center">
       <!-- several pages in container -->
       <div id="Page1">
-      <p><strong>Data Analytic</strong><br>The suitable area for growing bamboo is the result of combining several ecological and human settlement (detail through this 
-      <a href="https://wawasita.users.earthengine.app/view/bambooprtentialprototype2">link</a>
-      ) then using the <a href="https://desktop.arcgis.com/en/arcmap/10.3/tools/spatial-analyst-toolbox/how-focal-statistics-works.htm">focal analysis</a> 
-      to find the potential location to get the highest bamboo resource from 10 km radius for primary bamboo processing factory.<br>
-      While the transportation layer is a crucial factor for the secondary bamboo processing factory location to lessen the carbon emission from logistic factors.<br><br><br><br></p>    
+         <!-- image with modal -->
+         <p><img id="myImg" src="https://raw.githubusercontent.com/wawasita/wawasita.github.io/main/Illustration/Container%201c.png" alt="VC stages"style="height:200px;margin:0px"></p>
+        
+         <div id="myModal" class="modal">
+         <span class="close">&times;</span>
+         <img class="modal-content" src="https://raw.githubusercontent.com/wawasita/wawasita.github.io/main/Illustration/Bamboo%20Value%20Chain_2-02.png">
+         <div id="caption"></div>
+     </div>
       <a href="#" onclick="return toggleShow('Page2','Page1');">
         <button>&#8250</button>
       </a>
       </div>
       <class id="Page2" style="display:none">
-      <!-- image with modal -->
-        <p><img id="myImg" src="https://static.wixstatic.com/media/157274_12c4bc51c0d34833883705f35954ec7d~mv2.png" alt="VC stages"style="height:200px;margin:0px"></p>
+        <p><strong>Data Analytic</strong><br>The suitable area for growing bamboo is the result of combining several ecological and human settlement (detail through this 
+          <a href="https://wawasita.users.earthengine.app/view/bambooprtentialprototype2">link</a>
+          ) then using the <a href="https://desktop.arcgis.com/en/arcmap/10.3/tools/spatial-analyst-toolbox/how-focal-statistics-works.htm">focal analysis</a> 
+          to find the potential location to get the highest bamboo resource from 10 km radius for primary bamboo processing factory.<br>
+          While the transportation layer is a crucial factor for the secondary bamboo processing factory location to lessen the carbon emission from logistic factors.<br><br><br><br></p>
         <button onclick="toggleShow()">&#8249</button>
-            <div id="myModal" class="modal">
-            <span class="close">&times;</span>
-            <img class="modal-content" src="https://static.wixstatic.com/media/157274_efae6e10a7ad498ba3662c8c984e6a41~mv2.png">
-            <div id="caption"></div>
-        </div>
         <a href="#" onclick="return toggleShow('Page3','Page2');">
           <button>&#8250</button>
         </a>
