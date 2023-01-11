@@ -4,13 +4,13 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/wawasita/cl6g21ffh000m14rtj98ffsig', // style URL
-  center: [100.45, 14.0], // starting position [lng, lat]
-  zoom: 8, // starting zoom (0 {world scale} to 22)
+  center: [100.45, 14.05], // starting position [lng, lat]
+  zoom: 8.25, // starting zoom (0 {world scale} to 22)
   //control min-max zoom level on website
   maxZoom: 15,
   minZoom: 4,
-  pitch: 75, // pitch in degrees
-  // bearing: -45, // bearing in degrees
+  pitch: 60, // pitch in degrees
+  //bearing: -60, // bearing in degrees
   projection: 'mercator', // display the map as a 3D globe only two possibility globe or mercator
 });
 
@@ -114,6 +114,12 @@ function addSource() {
     type: 'vector',
     url: 'mapbox://wawasita.5lc4rp7t',
   });
+
+  map.addSource('case', {
+    type: 'vector',
+    url: 'mapbox://wawasita.5xfj5f59',
+  });
+
   map.addSource('sc_cir', {
     type: 'geojson',
     data: 'https://raw.githubusercontent.com/wawasita/ThailandBambooBelt/c02971a82857aef8e728f1d1b857064ef98b1216/GEE_Score_All_point_ex_5d.geojson',
@@ -147,14 +153,29 @@ function addLayer() {
         ['linear'],
         ['get', 'ScoreMean'], // tell the render to pick the data from 'properties' which is identify on the tileset
         1.4,
-        '#7a871e',
+        '#b3ae25',
         3,
-        '#250061',
+        '#37355C',
       ],
       'fill-opacity': 0.5,
       'fill-outline-color': '#0d237d',
     },
   });
+
+  const {MapboxLayer, ScatterplotLayer, ArcLayer} = deck;
+  map.addLayer(new MapboxLayer({
+      id: 'Case Illustration',
+      type: ArcLayer,
+      data: 'https://raw.githubusercontent.com/wawasita/wawasita.github.io/main/case_sheet.json',
+      pickable: true,
+      getSourcePosition: d => [d.s_lng, d.s_lat],
+      getTargetPosition: d => [d.t_lng, d.t_lat],
+      // getTargetPosition: d => [d.home_lng, d.home_lat],
+      getSourceColor: d => d.s_color,
+      getTargetColor: d => d.t_color,
+      getWidth: 3,
+      getHeight: d => 1/(1.5*d.size)
+    }));
 
   map.addLayer({
     id: 'Suitable area for primary factory',
@@ -205,8 +226,7 @@ function addLayer() {
     type: 'fill-extrusion',
     source: 'Factory',
     'source-layer': 'Factory_Area',
-    //minzoom: 9.5,
-    maxzoom: 8.5,
+    maxzoom: 8.26,
     layout: {},
     //to filter the range
     filter: ['>=', 'label', 368],
@@ -258,6 +278,45 @@ function addLayer() {
       'fill-outline-color': 'black', //cannot control the thickness
     },
   });
+
+
+  map.addLayer({
+    id: 'Case Description',
+    type: 'symbol',
+    source: 'case',
+    'source-layer': 'case_points-448omy',
+    minzoom: 4,
+    layout: {
+      'text-field': ['get', 'Name'],
+      //only mapbox font, in case want personal font then upload font on mapbox style
+      'text-font': ['DIN Pro Regular'],
+      'text-size': 10,
+      'text-offset': [0, 1.25],
+      'text-anchor': 'top',
+      //add the icon svg 15x15px in the map style
+      //color the icon - https://docs.mapbox.com/help/troubleshooting/using-recolorable-images-in-mapbox-maps/
+      //customize icon-image and size according to data
+      'icon-image': [
+        'match',
+        ['get', 'Type'],
+        1,
+        'LCA-01',
+        2,
+        'LCA-02',
+        3,
+        'LCA-03',
+        4,
+        'LCA-04',
+        /* other */ 'dot-11',
+      ],
+      'icon-size': 1.25
+    },
+    paint: {
+      'text-opacity': 0.8,
+      'icon-opacity': 1,
+    },
+  });
+
 
   map.addLayer({
     id: 'Train Station',
@@ -487,8 +546,10 @@ map.on('idle', () => {
   if (
     !map.getLayer('Suitable area to grow bamboo') ||
     !map.getLayer('Suitable area for primary factory') ||
-    !map.getLayer('Suitable area for transportation to urban fabric')
-    //       ||!map.getLayer('Train Station')
+    !map.getLayer('Suitable area for transportation to urban fabric')||
+    !map.getLayer('Case Description')||
+    !map.getLayer('Case Illustration')
+
   ) {
     return;
   }
@@ -498,7 +559,8 @@ map.on('idle', () => {
     'Suitable area to grow bamboo',
     'Suitable area for primary factory',
     'Suitable area for transportation to urban fabric',
-    //    , 'Train Station'
+    'Case Illustration',
+    'Case Description'
   ];
 
   // Set up the corresponding toggle button for each layer.
