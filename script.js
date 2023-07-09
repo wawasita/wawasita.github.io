@@ -122,6 +122,16 @@ function addSource() {
     url: 'mapbox://wawasita.5xfj5f59',
   });
 
+  map.addSource('Frame1', {
+    type: 'geojson',
+    data: 'https://raw.githubusercontent.com/wawasita/wawasita.github.io/main/Illustration/Frame1.geojson',
+  });
+
+  map.addSource('Frame2', {
+    type: 'geojson',
+    data: 'https://raw.githubusercontent.com/wawasita/wawasita.github.io/main/Illustration/Frame2.geojson',
+  });
+
   map.addSource('sc_cir', {
     type: 'geojson',
     data: 'https://raw.githubusercontent.com/wawasita/ThailandBambooBelt/c02971a82857aef8e728f1d1b857064ef98b1216/GEE_Score_All_point_ex_5d.geojson',
@@ -279,6 +289,30 @@ function addLayer() {
       'fill-opacity': 0.4,
       'fill-outline-color': 'black', //cannot control the thickness
     },
+  });
+
+  map.addLayer({
+    id: 'Frame1',
+    //type can be "fill", "line", "symbol", "circle", "heatmap", "fill-extrusion", "raster", "hillshade", "background", "sky".
+    type: 'line',
+    source: 'Frame1',
+    layout: {},
+    paint: {
+      'line-color': '#ff0066',
+      'line-width': 3
+      }
+  });
+
+  map.addLayer({
+    id: 'Frame2',
+    //type can be "fill", "line", "symbol", "circle", "heatmap", "fill-extrusion", "raster", "hillshade", "background", "sky".
+    type: 'line',
+    source: 'Frame2',
+    layout: {},
+    paint: {
+      'line-color': '#000',
+      'line-width': 3
+      }
   });
 
 
@@ -550,8 +584,9 @@ map.on('idle', () => {
     !map.getLayer('Suitable area for primary factory') ||
     !map.getLayer('Suitable area for transportation to urban fabric')||
     !map.getLayer('Case Description')||
-    !map.getLayer('Case Illustration')
-
+    !map.getLayer('Case Illustration')||
+    !map.getLayer('Frame1')||
+    !map.getLayer('Frame2')
   ) {
     return;
   }
@@ -562,7 +597,9 @@ map.on('idle', () => {
     'Suitable area for primary factory',
     'Suitable area for transportation to urban fabric',
     'Case Illustration',
-    'Case Description'
+    'Case Description',
+    'Frame1',
+    'Frame2'
   ];
 
   // Set up the corresponding toggle button for each layer.
