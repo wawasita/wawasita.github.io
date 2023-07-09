@@ -45,6 +45,8 @@ const draw = new MapboxDraw({
   displayControlsDefault: false,
   // Select which mapbox-gl-draw control buttons to add to the map.
   controls: {
+    point: true,
+    polygon: true,
     line_string: true,
     trash: true,
   },
